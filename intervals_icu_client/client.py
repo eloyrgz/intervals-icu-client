@@ -11,6 +11,7 @@ No credentials are logged or persisted.
 """
 from __future__ import annotations
 
+import os
 import requests
 from typing import Any
 
@@ -46,6 +47,15 @@ class IntervalsClient:
             "User-Agent": _USER_AGENT,
             "Accept": "application/json",
         })
+
+    @classmethod
+    def from_env(cls, timeout: int = _DEFAULT_TIMEOUT) -> "IntervalsClient | None":
+        """Build a client from INTERVALS_ATHLETE_ID/INTERVALS_API_KEY, or None if unset."""
+        athlete_id = os.getenv("INTERVALS_ATHLETE_ID")
+        api_key = os.getenv("INTERVALS_API_KEY")
+        if athlete_id and api_key:
+            return cls(athlete_id=athlete_id, api_key=api_key, timeout=timeout)
+        return None
 
     # ------------------------------------------------------------------
     # Activities

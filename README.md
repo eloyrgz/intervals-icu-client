@@ -19,6 +19,9 @@ from intervals_icu_client import IntervalsClient
 
 client = IntervalsClient(athlete_id="i87571", api_key="your_api_key")
 
+# Or build from INTERVALS_ATHLETE_ID/INTERVALS_API_KEY env vars, returns None if unset
+client = IntervalsClient.from_env()
+
 # Fetch activities
 activities = client.get_activities(oldest="2026-01-01", newest="2026-07-27")
 
