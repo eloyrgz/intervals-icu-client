@@ -54,6 +54,9 @@ workouts = client.get_workouts()
 | Method | Endpoint | Purpose |
 |--------|----------|---------|
 | `get_activities(oldest, newest)` | GET /athlete/{id}/activities | Fetch activity history |
+| `get_activity(id)` | GET /activity/{id} | Full activity detail (zones, HRR) |
+| `get_activity_streams(id, types)` | GET /activity/{id}/streams.json | Per-second HR, pace, altitude, cadence, GPS |
+| `get_activity_intervals(id)` | GET /activity/{id}/intervals | Detected work/recovery intervals |
 | `update_activity(id, data)` | PUT /activity/{id} | Update RPE, notes, etc. |
 | `post_activity_message(id, msg)` | POST /activity/{id}/messages | Add comment |
 | `get_events(oldest, newest)` | GET /athlete/{id}/events | Calendar events |

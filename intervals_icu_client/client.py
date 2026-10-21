@@ -77,6 +77,27 @@ class IntervalsClient:
             params={"oldest": oldest, "newest": newest},
         )
 
+    def get_activity(self, activity_id: str | int) -> dict:
+        """Fetch one activity with full detail (zones, HRR, interval summary, etc.)."""
+        return self._get(f"/api/v1/activity/{activity_id}")
+
+    def get_activity_streams(self, activity_id: str | int, types: list[str] | None = None) -> list[dict]:
+        """Fetch recorded time-series streams for an activity.
+
+        Args:
+            activity_id: The Intervals.icu activity ID.
+            types: Optional stream types to return (e.g. ["time", "heartrate",
+                "velocity_smooth", "distance", "altitude", "cadence"]). All if omitted.
+
+        Returns list of {"type": ..., "data": [...]} dicts, one sample per second.
+        """
+        params = {"types": ",".join(types)} if types else None
+        return self._get(f"/api/v1/activity/{activity_id}/streams.json", params=params)
+
+    def get_activity_intervals(self, activity_id: str | int) -> dict:
+        """Fetch detected intervals for an activity (keys: icu_intervals, icu_groups)."""
+        return self._get(f"/api/v1/activity/{activity_id}/intervals")
+
     def update_activity(self, activity_id: str | int, data: dict) -> dict:
         """Update an activity's fields (e.g. icu_rpe).
 
